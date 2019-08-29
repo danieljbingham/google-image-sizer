@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Google\u2122 Image Sizer",
-	"version": "1.0",
+	"version": "1.0.1",
 	"description": "Re-implements Google\u2122 image search feature to filter images by megapixels.",
 	"icons": {
 		"128": "icon128.png",

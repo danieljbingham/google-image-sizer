@@ -6,7 +6,6 @@ function addSizes() {
 	var parent = icon.parentNode;
 	var sizes = [["isz_2", "2mp"],["isz_4", "4mp"],["isz_6", "6mp"],["isz_8", "8mp"],["isz_10", "10mp"],
 		["isz_12", "12mp"],["isz_15", "15mp"],["isz_20", "20mp"],["isz_40", "40mp"],["isz_70", "70mp"]];
-
 	for (var i=0; i < sizes.length; i++) {
 		clone = icon.cloneNode(true);
 		clone.id = sizes[i][0];
@@ -32,10 +31,17 @@ function isImageUrl() {
 Check sizes not there already
 */
 function needSizes() {
-	
+	return document.getElementById("isz_i").parentNode.childNodes.length < 6
 }
 
+
 //run script
-if (isImageUrl()) {
-	addSizes();
+
+if (isImageUrl() && needSizes()) {
+	var checkExist = setInterval(function() {
+		if (document.getElementById("isz_i")) {
+			clearInterval(checkExist);
+			addSizes();
+		}
+	 }, 100); // check every 100ms
 }
