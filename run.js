@@ -34,14 +34,32 @@ function needSizes() {
 	return document.getElementById("isz_i").parentNode.childNodes.length < 6
 }
 
+/*
+Show sizes/dimensions by default instead of on hover
+*/
+function showSizesDefault() {
+	var css = ".rg_anbg {display: none !important;} .rg_l:hover .rg_anbg {display: block !important;} " +
+		".rg_ilmbg {display: block !important;} .rg_l:hover .rg_ilmbg {display: none !important;}";
+	var style = document.createElement('style');
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		style.appendChild(document.createTextNode(css));
+	}
+
+	document.getElementsByTagName('head')[0].appendChild(style);
+}
 
 //run script
-
-if (isImageUrl() && needSizes()) {
+showSizesDefault();
+if (isImageUrl()) {
 	var checkExist = setInterval(function() {
 		if (document.getElementById("isz_i")) {
 			clearInterval(checkExist);
-			addSizes();
+			if (needSizes()) {
+				addSizes();
+			}
 		}
 	 }, 100); // check every 100ms
 }
