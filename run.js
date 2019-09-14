@@ -35,7 +35,7 @@ function needSizes() {
 }
 
 /*
-Show sizes/dimensions by default instead of on hover
+Show sizes/dimensions by default instead of hover
 */
 function showSizesDefault() {
 	var css = ".rg_anbg {display: none !important;} .rg_l:hover .rg_anbg {display: block !important;} " +
