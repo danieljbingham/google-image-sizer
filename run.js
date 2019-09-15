@@ -1,23 +1,54 @@
+// ==UserScript==
+// @name         Google image sizer
+// @namespace    https://github.com/danieljbingham/google-image-sizer
+// @version      1.0.3.1
+// @description  re-implement Google Images size filter
+// @author       Daniel Bingham
+// @include      http*://*.google.tld/search*tbm=isch*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+
+var sz= /[?&]tbs=(?:[^&]+,)?isz:([^&,]+)/.test(location.search) && RegExp.$1;
+
 /*
-Iterate through list of image sizes and add them to the DOM 
+Iterate through list of image sizes and add them to the DOM
 */
 function addSizes() {
-	var icon = document.getElementById("isz_i");
+	var icon = document.getElementById("isz_i").parentNode.querySelector(':scope * + .hdtbItm:not([tabindex])');
 	var parent = icon.parentNode;
 	var sizes = [["isz_2", "2mp"],["isz_4", "4mp"],["isz_6", "6mp"],["isz_8", "8mp"],["isz_10", "10mp"],
 		["isz_12", "12mp"],["isz_15", "15mp"],["isz_20", "20mp"],["isz_40", "40mp"],["isz_70", "70mp"]];
+	var clone, child, chkAny=false;
 	for (var i=0; i < sizes.length; i++) {
 		clone = icon.cloneNode(true);
 		clone.id = sizes[i][0];
-		child = clone.firstChild;
-		href = child.href;
-		href = href.replace("tbs=isz:i", "tbs=isz:" + sizes[i][1]);
-		clone.firstChild.href = href;
-		clone.firstChild.innerHTML = "Larger than " + sizes[i][1].toUpperCase();
-		
+		if (sizes[i][1]==sz) {
+			clone.classList.add('hdtbSel');
+			child=clone;
+			chkAny=true;
+			parent.previousSibling.querySelector('.mn-hd-txt').innerHTML = "Larger than " + sizes[i][1].toUpperCase();
+			parent.previousSibling.classList.add('hdtb-tsel');
+			}
+		else {
+			child = clone.firstChild;
+			child.href = child.href.replace(/(tbs=(?:[^&]+,)?)isz(:[^&,]+)/, "$1"+"isz:" + sizes[i][1]);
+			}
+		child.innerHTML = "Larger than " + sizes[i][1].toUpperCase();
+
 		parent.appendChild(clone);
 	}
 
+	var fc=parent.firstElementChild;
+	if (chkAny && fc.classList.contains('hdtbSel')) {
+		fc.classList.remove('hdtbSel');
+		child=icon.firstChild.cloneNode(true);
+		child.href= child.href.replace(/(tbs=(?:[^&]+,)?)isz(:[^&,]+)/, "$1");
+		child.innerHTML = fc.innerHTML;
+		fc.innerHTML='';
+		fc.appendChild(child);
+		}
 }
 
 /*
@@ -35,7 +66,7 @@ function needSizes() {
 }
 
 /*
-Show sizes/dimensions by default instead of hover
+Show sizes/dimensions by default instead of on hover
 */
 function showSizesDefault() {
 	var css = ".rg_anbg {display: none !important;} .rg_l:hover .rg_anbg {display: block !important;} " +
@@ -53,13 +84,16 @@ function showSizesDefault() {
 
 //run script
 showSizesDefault();
-if (isImageUrl()) {
-	var checkExist = setInterval(function() {
-		if (document.getElementById("isz_i")) {
-			clearInterval(checkExist);
-			if (needSizes()) {
-				addSizes();
-			}
+
+var maxTries=100;
+function chk() {
+	if (!document.getElementById('isz_i')) {
+		if (maxTries--) setTimeout(chk,100);
+		return;
 		}
-	 }, 100); // check every 100ms
+	if (needSizes()) addSizes();
 }
+
+if (isImageUrl()) chk();
+
+})();
