@@ -28,25 +28,25 @@ function addSizes() {
 			clone.classList.add('hdtbSel');
 			child=clone;
 			chkAny=true;
-			parent.previousSibling.querySelector('.mn-hd-txt').innerHTML = "Larger than " + sizes[i][1].toUpperCase();
+			parent.previousSibling.querySelector('.mn-hd-txt').textContent = "Larger than " + sizes[i][1].toUpperCase();
 			parent.previousSibling.classList.add('hdtb-tsel');
 			}
 		else {
 			child = clone.firstChild;
 			child.href = child.href.replace(/(tbs=(?:[^&]+,)?)isz(:[^&,]+)/, "$1"+"isz:" + sizes[i][1]);
 			}
-		child.innerHTML = "Larger than " + sizes[i][1].toUpperCase();
+		child.textContent = "Larger than " + sizes[i][1].toUpperCase();
 
 		parent.appendChild(clone);
 	}
 
-	var fc=parent.firstElementChild;
+	var fc = parent.firstElementChild;
 	if (chkAny && fc.classList.contains('hdtbSel')) {
 		fc.classList.remove('hdtbSel');
 		child=icon.firstChild.cloneNode(true);
 		child.href= child.href.replace(/(tbs=(?:[^&]+,)?)isz(:[^&,]+)/, "$1");
-		child.innerHTML = fc.innerHTML;
-		fc.innerHTML='';
+		child.textContent = fc.textContent;
+		fc.textContent='';
 		fc.appendChild(child);
 		}
 }

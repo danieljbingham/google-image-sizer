@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Image Search Sizer",
-	"version": "1.0.3.1",
+	"version": "1.0.3.2",
 	"description": "Re-implements Google\u2122 image search feature to filter images by megapixels.",
 	"icons": {
 		"128": "icon128.png",
@@ -12,7 +12,7 @@
 	"content_scripts": [
         {
           "matches": [
-            "*://*.google.com/*",
+        "*://*.google.com/*",
 		"*://*.google.ac/*",
 		"*://*.google.ad/*",
 		"*://*.google.com.af/*",
@@ -216,7 +216,6 @@
 	  
 	"permissions": [
 		"activeTab",
-		"tabs",
-		"webNavigation"
+		"tabs"
 	]
 }
