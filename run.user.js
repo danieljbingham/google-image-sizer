@@ -22,7 +22,7 @@
 			addSizesIsz();
 		}
 		else {
-			addSizesAria();
+			addSizesOnClick();
 		}
 	}
 
@@ -64,19 +64,14 @@
 	}
 
 	/*
-	Iterate through list of image sizes and add them to the DOM (when aria-labels are used)
+	When sizes nav is not already present in source code, add an event listener to add sizes when the menu is clicked
 	*/
-	function addSizesAria() {
-		var icon = document.querySelectorAll('[aria-label="Icon"]').item(0);
-		var parent = icon.parentNode;
-
-		var clone = false;
-		for (var i = 0; i < sizes.length; i++) {
-			clone = icon.cloneNode(true);
-			clone.href = clone.href.replace(/(tbs=(?:[^&]+,)?)isz(%3A[^&,]+)/, "$1" + "isz:lt,islt:" + sizes[i][1]);
-			clone.firstChild.firstChild.textContent = "Larger than " + sizes[i][1].toUpperCase();
-			parent.appendChild(clone);
-		}
+	function addSizesOnClick() {
+		document.getElementById("hdtb-tls").addEventListener("click", function(){
+			document.querySelectorAll('[aria-label="Size"]').item(0).addEventListener("click", function(){
+				addSizesIsz();
+			});
+		});
 	}
 
 	/*
