@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google image sizer
 // @namespace    https://github.com/danieljbingham/google-image-sizer
-// @version      1.0.3.4
+// @version      1.0.3.5
 // @description  re-implement Google Images size filter
 // @author       Daniel Bingham
 // @include      http*://*.google.tld/search*tbm=isch*
@@ -22,7 +22,7 @@
 		if (document.getElementById('isz_i')) {
 			addSizesIsz();
 		}
-		else if (e=document.querySelector('g-card.qcTKEe')) {
+		else if (e=document.querySelector('.qcTKEe')) {
 			e=e.querySelector(':scope [data-index="0"]');
 			const obs = new MutationObserver(function(mutL){
 				for (let mut of mutL) {
@@ -124,7 +124,7 @@
 	function needSizes() {
 		var nodes = document.querySelector('[aria-label="Large"]') || document.getElementById("isz_i"); 
 		if (nodes) return nodes.parentNode.childNodes.length < 6;
-		else return document.querySelector('g-card.qcTKEe') && true;
+		else return document.querySelector('.qcTKEe') && true;
 	}
 
 	/*
@@ -152,7 +152,7 @@
 
 	var maxTries = 100;
 	function chk() {
-		if (!document.getElementById('isz_i') && (!document.querySelector('[aria-label="Large"]')) && (!document.querySelector('g-card.qcTKEe'))) {
+		if (!document.getElementById('isz_i') && (!document.querySelector('[aria-label="Large"]')) && (!document.querySelector('.qcTKEe'))) {
 			if (maxTries--) setTimeout(chk, 100);
 			return;
 		}
