@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google image sizer
 // @namespace    https://github.com/danieljbingham/google-image-sizer
-// @version      1.0.3.5
+// @version      1.0.3.6
 // @description  re-implement Google Images size filter
 // @author       Daniel Bingham
 // @include      http*://*.google.tld/search*tbm=isch*
@@ -10,7 +10,7 @@
 
 (function () {
 
-	var sz = /[?&]tbs=(?:[^&]+,)?isz(?::|%3A)([^&,]+)(?:,islt(?::|%3A)([^&,]+))?/.exec(location.search) || [];
+	var sz = /[?&]tbs=(?:[^&]+,)?isz(?::|%3A)([^&,]+)(?:,islt(?::|%3A)([^&,]+))?/.exec(unescape(location.search)) || [];
 	var sizes = [["isz_2", "2mp"], ["isz_4", "4mp"], ["isz_6", "6mp"], ["isz_8", "8mp"], ["isz_10", "10mp"],
 	["isz_12", "12mp"], ["isz_15", "15mp"], ["isz_20", "20mp"], ["isz_40", "40mp"], ["isz_70", "70mp"]];
 
@@ -82,7 +82,7 @@
 		var parent = icon.parentNode;
 		if (parent.classList.contains('szDone')) return;
 		parent.classList.add('szDone');
-		icon.href=unescape(icon.href);
+		icon.href = icon.href.replace(/(tbs=[^&]*)/, function(s){return unescape(s)} );
 		var cur = parent.querySelector('span.MfLWbb');
 		for (var i = 0; i < sizes.length; i++) {
 			let clone = icon.cloneNode(true);
