@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google image sizer
 // @namespace    https://github.com/danieljbingham/google-image-sizer
-// @version      1.0.3.4
+// @version      1.0.3.6
 // @description  re-implement Google Images size filter
 // @author       Daniel Bingham
 // @include      http*://*.google.tld/search*tbm=isch*
@@ -10,7 +10,7 @@
 
 (function () {
 
-	var sz = /[?&]tbs=(?:[^&]+,)?isz(?::|%3A)([^&,]+)(?:,islt(?::|%3A)([^&,]+))?/.exec(location.search) || [];
+	var sz = /[?&]tbs=(?:[^&]+,)?isz(?::|%3A)([^&,]+)(?:,islt(?::|%3A)([^&,]+))?/.exec(unescape(location.search)) || [];
 	var sizes = [["isz_2", "2mp"], ["isz_4", "4mp"], ["isz_6", "6mp"], ["isz_8", "8mp"], ["isz_10", "10mp"],
 	["isz_12", "12mp"], ["isz_15", "15mp"], ["isz_20", "20mp"], ["isz_40", "40mp"], ["isz_70", "70mp"]];
 
@@ -22,7 +22,7 @@
 		if (document.getElementById('isz_i')) {
 			addSizesIsz();
 		}
-		else if (e=document.querySelector('g-card.qcTKEe')) {
+		else if (e=document.querySelector('.qcTKEe')) {
 			e=e.querySelector(':scope [data-index="0"]');
 			const obs = new MutationObserver(function(mutL){
 				for (let mut of mutL) {
@@ -82,7 +82,7 @@
 		var parent = icon.parentNode;
 		if (parent.classList.contains('szDone')) return;
 		parent.classList.add('szDone');
-		icon.href=unescape(icon.href);
+		icon.href = icon.href.replace(/(tbs=[^&]*)/, function(s){return unescape(s)} );
 		var cur = parent.querySelector('span.MfLWbb');
 		for (var i = 0; i < sizes.length; i++) {
 			let clone = icon.cloneNode(true);
@@ -124,7 +124,7 @@
 	function needSizes() {
 		var nodes = document.querySelector('[aria-label="Large"]') || document.getElementById("isz_i"); 
 		if (nodes) return nodes.parentNode.childNodes.length < 6;
-		else return document.querySelector('g-card.qcTKEe') && true;
+		else return document.querySelector('.qcTKEe') && true;
 	}
 
 	/*
@@ -152,7 +152,7 @@
 
 	var maxTries = 100;
 	function chk() {
-		if (!document.getElementById('isz_i') && (!document.querySelector('[aria-label="Large"]')) && (!document.querySelector('g-card.qcTKEe'))) {
+		if (!document.getElementById('isz_i') && (!document.querySelector('[aria-label="Large"]')) && (!document.querySelector('.qcTKEe'))) {
 			if (maxTries--) setTimeout(chk, 100);
 			return;
 		}
