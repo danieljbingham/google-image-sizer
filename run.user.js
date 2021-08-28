@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google image sizer
 // @namespace    https://github.com/danieljbingham/google-image-sizer
-// @version      1.0.3.6
+// @version      1.0.3.7
 // @description  re-implement Google Images size filter
 // @author       Daniel Bingham
 // @include      http*://*.google.tld/search*tbm=isch*
@@ -83,7 +83,7 @@
 		if (parent.classList.contains('szDone')) return;
 		parent.classList.add('szDone');
 		icon.href = icon.href.replace(/(tbs=[^&]*)/, function(s){return unescape(s)} );
-		var cur = parent.querySelector('span.MfLWbb');
+		var cur = parent.querySelector('span.MfLWbb, .MfLWbb:not([href])');
 		for (var i = 0; i < sizes.length; i++) {
 			let clone = icon.cloneNode(true);
 			clone.id = sizes[i][0];
