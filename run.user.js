@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google image sizer
 // @namespace    https://github.com/danieljbingham/google-image-sizer
-// @version      1.0.4
+// @version      2.0.0
 // @description  re-implement Google Images size filter
 // @author       Daniel Bingham
 // @include      http*://*.google.tld/search*tbm=isch*
