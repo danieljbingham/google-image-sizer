@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google image sizer
 // @namespace    https://github.com/danieljbingham/google-image-sizer
-// @version      2.0.0
+// @version      2.0.1
 // @description  re-implement Google Images size filter
 // @author       Daniel Bingham
 // @include      http*://*.google.tld/search*tbm=isch*
@@ -96,6 +96,7 @@
 
 	/*
 	Show sizes/dimensions by default instead of on hover
+	TODO: no longer works, google doesn't show dimensions at all unless image clicked
 	*/
 	function showSizesDefault() {
 		var css = ".rg_anbg {display: none !important;} .rg_l:hover .rg_anbg {display: block !important;} " +
@@ -117,10 +118,10 @@
 
 	var maxTries = 100;
 	function chk() {
-		// if (!document.getElementById('isz_i') && (!document.querySelector('[aria-label="Large"]')) && (!document.querySelector('.qcTKEe'))) {
-		// 	if (maxTries--) setTimeout(chk, 100);
-		// 	return;
-		// }
+		if (!document.querySelector('g-menu[jsname="xl07Ob"]')) {
+			if (maxTries--) setTimeout(chk, 100);
+			return;
+		}
 
 		if (needSizes()) addSizes();
 	}
